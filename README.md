@@ -4,8 +4,8 @@ Kubernetes on CentOS 7 based on [kubeadm](http://kubernetes.io/docs/admin/kubead
 To setup type:
 
 ```
-$ ./up.sh
-$ vagrant ssh master
+$ sudo ./up.sh
+$ sudo vagrant ssh master
 [vagrant@master]$ kubectl get nodes
 ```
 
