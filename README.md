@@ -5,4 +5,6 @@ To setup type:
 
 ```
 $ ./up.sh
+$ vagrant ssh master
+[vagrant@master]$ kubectl get nodes
 ```
