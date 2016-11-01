@@ -1,0 +1,12 @@
+- name: create
+  command: kubeadm init --token=abcdef.1234567890abcdef --api-advertise-addresses=192.168.10.90
+
+- name: create weave network
+  command: kubectl create -f https://git.io/weave-kube
+
+- name: get dns service address
+  shell: kubectl get services --all-namespaces | grep kube-dns | awk "{print \$3}"
+  register: kubednsaddress
+
+- name: wait for dns to be ready
+  wait_for: host={{ kubednsaddress.stdout }} port=53 state=started timeout=1800

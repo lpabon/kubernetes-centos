@@ -1,0 +1,17 @@
+- name: update atomic
+  command: atomic host upgrade
+  ignore_errors: yes
+
+- name: clean iptables
+  command: iptables -F
+
+- name: disable selinux
+  selinux: state=disabled
+
+- name: fix issue with eth1
+  copy: src=rc.local owner=root group=root mode=755 dest=/etc/rc.d
+  when: provider == "libvirt"
+
+- name: fix issue with enp0s8
+  copy: src=rc.local owner=root group=root mode=755 dest=/etc/rc.d
+  when: provider == "virtualbox"

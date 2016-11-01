@@ -1,0 +1,30 @@
+- name: fix issue with eth1
+  copy: src=rc.local owner=root group=root mode=755 dest=/etc/rc.d
+
+- name: temporary disable of selinux
+  command: setenforce 0
+
+- name: install utility programs
+  yum: name={{ item }} state=present
+  with_items:
+    - wget
+    - screen
+    - epel-release
+    - git
+    - vim
+    - centos-release-gluster
+
+- name: setup kubernetes repo
+  copy: src=kubernetes.repo owner=root group=root dest=/etc/yum.repos.d
+
+- name: install kube components
+  command: yum -y install docker kubelet kubeadm kubectl kubernetes-cni
+
+- name: enable kube services
+  service: name={{ item }} state=started enabled=yes
+  with_items:
+    - docker
+    - kubelet
+
+- name: configure dm_snapshot module
+  copy: src=dm_snapshot.conf owner=root group=root mode=644 dest=/etc/modules-load.d

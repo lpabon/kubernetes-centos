@@ -1,0 +1,17 @@
+- hosts: all
+  become: yes
+  become_method: sudo
+  roles:
+    - common
+
+- hosts: master
+  become: yes
+  become_method: sudo
+  roles:
+    - master
+
+- hosts: nodes
+  become: yes
+  become_method: sudo
+  roles:
+    - nodes 
