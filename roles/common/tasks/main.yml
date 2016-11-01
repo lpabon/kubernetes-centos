@@ -1,7 +1,10 @@
 - name: fix issue with eth1
   copy: src=rc.local owner=root group=root mode=755 dest=/etc/rc.d
 
-- name: temporary disable of selinux
+- name: disable selinux
+  selinux: state=disabled
+
+- name: disable of selinux - now
   command: setenforce 0
 
 - name: install utility programs
