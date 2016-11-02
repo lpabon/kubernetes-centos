@@ -10,3 +10,6 @@ $ sudo vagrant ssh master
 ```
 
 > NOTE: currently works on Vagrant libvirt/KVM only, but it shouldn't be too hard to make it work in Virtualbox
+
+# Versions
+Currently it uses Kubernetes v1.4.5

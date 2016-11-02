@@ -1,5 +1,5 @@
 - name: create
-  command: kubeadm init --token=abcdef.1234567890abcdef --api-advertise-addresses=192.168.10.90
+  command: kubeadm init --token={{ kubernetes_token }} --use-kubernetes-version=v{{ kubernetes_version }}  --api-advertise-addresses=192.168.10.90
 
 - name: create weave network
   command: kubectl create -f https://git.io/weave-kube

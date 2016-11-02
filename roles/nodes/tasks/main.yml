@@ -1,2 +1,2 @@
-- name: initialize
-  command: kubeadm join --token=abcdef.1234567890abcdef 192.168.10.90
+- name: join with master
+  command: kubeadm join --token={{ kubernetes_token }} 192.168.10.90
