@@ -1,10 +1,7 @@
-- name: fix issue with eth1
-  copy: src=rc.local owner=root group=root mode=755 dest=/etc/rc.d
-
 - name: "Build hosts file"
   lineinfile: dest=/etc/hosts regexp='.*{{ item }}$' line="{{ hostvars[item].ansible_default_ipv4.address }} {{item}}" state=present
   when: hostvars[item].ansible_default_ipv4.address is defined
-  with_items: {{ groups['all'] }}
+  with_items: "{{ groups['all'] }}"
 
 - name: disable selinux
   selinux: state=disabled
@@ -43,4 +40,3 @@
     mode: 0755
   with_items:
     - kubelet
-    - kubectl

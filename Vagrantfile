@@ -15,7 +15,6 @@ Vagrant.configure("2") do |config|
 
     # Make kub master
     config.vm.define :master do |master|
-        master.vm.network :private_network, ip: "192.168.10.90"
         master.vm.host_name = "master"
 
         master.vm.provider :libvirt do |lv|
@@ -29,7 +28,6 @@ Vagrant.configure("2") do |config|
     (0..NODES-1).each do |i|
         config.vm.define "node#{i}" do |node|
             node.vm.hostname = "node#{i}"
-            node.vm.network :private_network, ip: "192.168.10.10#{i}"
 
             (0..DISKS-1).each do |d|
                 driverletters = ('b'..'z').to_a
