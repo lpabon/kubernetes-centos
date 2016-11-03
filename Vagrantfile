@@ -15,8 +15,13 @@ Vagrant.configure("2") do |config|
 
     # Make kub master
     config.vm.define :master do |master|
+        master.vm.network :private_network, ip: "192.168.10.90"
         master.vm.host_name = "master"
 
+        master.vm.provider :virtualbox do |vb|
+            vb.memory = 1024
+            vb.cpus = 2
+        end
         master.vm.provider :libvirt do |lv|
             lv.memory = 1024
             lv.cpus = 2
@@ -28,10 +33,26 @@ Vagrant.configure("2") do |config|
     (0..NODES-1).each do |i|
         config.vm.define "node#{i}" do |node|
             node.vm.hostname = "node#{i}"
+            node.vm.network :private_network, ip: "192.168.10.10#{i}"
+
+            # Settings for Virtualbox
+            node.vm.provider :virtualbox do |vb|
+                unless File.exist?("disk-#{i}-0.vdi")
+                    vb.customize ["storagectl", :id,"--name", "VboxSata", "--add", "sata"]
+                end
+            end
 
             (0..DISKS-1).each do |d|
-                driverletters = ('b'..'z').to_a
+                node.vm.provider :virtualbox do |vb|
+                    unless File.exist?("disk-#{i}-#{d}.vdi")
+                        vb.customize [ "createmedium", "--filename", "disk-#{i}-#{d}.vdi", "--size", 1024*1024 ]
+                    end
+                    vb.customize [ "storageattach", :id, "--storagectl", "VboxSata", "--port", 3+d, "--device", 0, "--type", "hdd", "--medium", "disk-#{i}-#{d}.vdi" ]
+                    vb.memory = 1024
+                    vb.cpus = 2
+                end
                 node.vm.provider :libvirt do  |lv|
+                    driverletters = ('b'..'z').to_a
                     lv.storage :file, :device => "vd#{driverletters[d]}", :path => "atomic-disk-#{i}-#{d}.disk", :size => '1024G'
                     lv.memory = 1024
                     lv.cpus =2
