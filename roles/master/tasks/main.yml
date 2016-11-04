@@ -10,3 +10,6 @@
 
 - name: wait for dns to be ready
   wait_for: host={{ kubednsaddress.stdout }} port=53 state=started timeout=1800
+
+#- name: save iptables
+#  command: service iptables save
