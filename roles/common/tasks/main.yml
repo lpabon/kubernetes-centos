@@ -1,3 +1,6 @@
+- name: update CentOS
+  yum: name='*' state=latest
+
 - name: build hosts file
   lineinfile: dest=/etc/hosts regexp='.*{{ item }}$' line="{{ hostvars[item].ansible_eth1.ipv4.address }} {{item}}" state=present
   when: hostvars[item].ansible_eth1.ipv4.address is defined
@@ -21,6 +24,7 @@
     - iptables
     - iptables-utils
     - iptables-services
+    - ncurses-term
 
 - name: install glusterfs client
   yum: name=glusterfs-client state=present
@@ -40,8 +44,8 @@
     - docker
     - kubelet
 
-#- name: save iptables
-#  command: service iptables save
+- name: save iptables
+  command: service iptables save
 
 - name: configure dm_snapshot module
   copy: src=dm_snapshot.conf owner=root group=root mode=644 dest=/etc/modules-load.d

@@ -19,5 +19,5 @@
 - name: join with master
   command: kubeadm join --token={{ kubernetes_token }} {{ hostvars['master'].ansible_eth1.ipv4.address }}
 
-#- name: save iptables
-#  command: service iptables save
+- name: save iptables
+  command: service iptables save

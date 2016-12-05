@@ -1,8 +1,29 @@
+- name: set correct terminal in bashrc
+  lineinfile:
+      dest: /home/vagrant/.bashrc
+      regexp: '^export TERM='
+      line: 'export TERM=xterm'
+
+- name: set correct editor in bashrc
+  lineinfile:
+      dest: /home/vagrant/.bashrc
+      regexp: '^export EDITOR='
+      line: 'export EDITOR=vim'
+
+- name: set kubectl alias in bashrc
+  lineinfile:
+      dest: /home/vagrant/.bashrc
+      regexp: '^alias kk='
+      line: 'alias kk=kubectl'
+
 - name: create
   command: kubeadm init --token={{ kubernetes_token }} --use-kubernetes-version=v{{ kubernetes_version }}  --api-advertise-addresses={{ ansible_eth1.ipv4.address }}
 
-- name: create weave network
-  command: kubectl create -f https://git.io/weave-kube
+- name: copy weave network 1.7.2 daemonset
+  copy: src=weave-kube.yml owner=vagrant group=vagrant dest=/home/vagrant
+
+- name: create weave 1.7.2 network
+  command: kubectl create -f weave-kube.yml
 
 - name: get dns service address
   shell: kubectl get services --all-namespaces | grep kube-dns | awk "{print \$3}"
@@ -11,5 +32,5 @@
 - name: wait for dns to be ready
   wait_for: host={{ kubednsaddress.stdout }} port=53 state=started timeout=1800
 
-#- name: save iptables
-#  command: service iptables save
+- name: save iptables
+  command: service iptables save
