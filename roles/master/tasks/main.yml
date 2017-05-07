@@ -16,7 +16,7 @@
       regexp: '^alias kk='
       line: 'alias kk=kubectl'
 
-- name: create
+- name: initialize kubeadm on master
   command: kubeadm init --token={{ kubernetes_token }} --use-kubernetes-version=v{{ kubernetes_version }}  --api-advertise-addresses={{ ansible_eth1.ipv4.address }}
 
 - name: get jq
@@ -35,7 +35,7 @@
   command: cp /etc/kubernetes/admin.conf /vagrant
 
 - name: create weave network
-  command: kubectl create -f https://git.io/weave-kube
+  command: kubectl apply -f https://git.io/weave-kube
 
 - name: get dns service address
   shell: kubectl get services --all-namespaces | grep kube-dns | awk "{print \$3}"

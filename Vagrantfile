@@ -23,7 +23,7 @@ Vagrant.configure("2") do |config|
             vb.cpus = 2
         end
         master.vm.provider :libvirt do |lv|
-            lv.memory = 2048
+            lv.memory = 4096
             lv.cpus = 2
         end
 
@@ -48,7 +48,7 @@ Vagrant.configure("2") do |config|
                         vb.customize [ "createmedium", "--filename", "disk-#{i}-#{d}.vdi", "--size", 1024*1024 ]
                     end
                     vb.customize [ "storageattach", :id, "--storagectl", "VboxSata", "--port", 3+d, "--device", 0, "--type", "hdd", "--medium", "disk-#{i}-#{d}.vdi" ]
-                    vb.memory = 2048
+                    vb.memory = 4096
                     vb.cpus = 2
                 end
                 node.vm.provider :libvirt do  |lv|
