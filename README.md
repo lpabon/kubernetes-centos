@@ -12,4 +12,4 @@ $ sudo vagrant ssh master
 Works in Vagrant/Ansible on Linux with libvirt/KVM or on Mac OS X on Virtualbox
 
 # Versions
-Currently it uses Kubernetes v1.4.5
+Currently it uses Kubernetes v1.5.6
