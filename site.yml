@@ -13,6 +13,8 @@
     - "global_vars.yml"
   roles:
     - master
+  environment:
+    KUBECONFIG: '/etc/kubernetes/admin.conf'
 
 - hosts: nodes
   become: yes

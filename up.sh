@@ -1,4 +1,4 @@
 #!/bin/sh
 
-vagrant up --no-provision $@ \
-    && vagrant provision
+vagrant up --provider=libvirt --no-provision $@ \
+    && vagrant --provider=libvirt provision
