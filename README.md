@@ -1,3 +1,7 @@
+# Deprecated
+
+Use https://github.com/lpabon/kubeup instead
+
 # Overview
 Kubernetes on CentOS 7 based on [kubeadm](http://kubernetes.io/docs/admin/kubeadm/). Default setup is a single master with three nodes
 
